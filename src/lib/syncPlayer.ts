@@ -1,9 +1,10 @@
 import { database } from "./firebase";
-import { ref, set, onValue, get as dbGet } from "firebase/database";
+import { ref, set, onValue } from "firebase/database";
 import { clientID } from "./clientData";
 import { get } from "svelte/store";
 
 const playerStateDBRef = ref(database, "playerState");
+const videoURLRef = ref(database, "videoURL");
 
 export const syncPlayer = (player) => {
   let ANTICIPATED_EVENTS = [];
@@ -134,6 +135,12 @@ export const syncPlayer = (player) => {
   onValue(playerStateDBRef, (snapshot) => {
     console.log("value changed");
     syncPlayerPos(snapshot.val());
+  });
+  onValue(videoURLRef, (snapshot) => {
+    console.log(snapshot.val());
+    player.loadVideoById({
+      videoId: snapshot.val(),
+    });
   });
 
   return () => {
