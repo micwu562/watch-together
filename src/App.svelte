@@ -1,32 +1,16 @@
 <script lang="ts">
-  import svelteLogo from "./assets/svelte.svg";
-  import Counter from "./lib/Counter.svelte";
-  import YtPlayer from "./lib/YTPlayer.svelte";
+  import { onMount } from "svelte";
+  import { clientID } from "./lib/clientData";
 
-  let YTPlayer;
-  let YTID;
+  import SyncedPlayer from "./lib/SyncedPlayer.svelte";
+
+  onMount(() => {
+    clientID.set(Math.floor(Math.random() * 10000000));
+  });
 </script>
 
 <main>
-  <YtPlayer bind:player={YTPlayer} />
-  <button
-    on:click={() => {
-      YTPlayer.playVideo();
-    }}>click me</button
-  >
-  <button
-    on:click={() => {
-      YTPlayer.pauseVideo();
-    }}>click me</button
-  >
-  <input type="text" bind:value={YTID} />
-  <button
-    on:click={() => {
-      YTPlayer.loadVideoById({
-        videoId: YTID,
-      });
-    }}>submit</button
-  >
+  <SyncedPlayer />
 
   <p>
     Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank"
