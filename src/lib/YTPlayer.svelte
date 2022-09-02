@@ -6,23 +6,27 @@
 </script>
 
 <script lang="ts">
+  import { getDBVideoURL } from "./database/databaseOps";
+
   export let player: object = {};
   export let playerInitialized = () => {};
 
-  (window as any).onYouTubeIframeAPIReady = () => {
-    console.log(typeof YT);
+  (window as any).onYouTubeIframeAPIReady = async () => {
+    // get video URL
+    let videoURL = await getDBVideoURL();
+
     player = new YT.Player("player", {
       height: "585",
       width: "960",
-      videoId: "M7lc1UVf-VE",
+      videoId: videoURL,
       playerVars: {
         playsinline: 1,
+        modestbranding: 1,
       },
-      events: {},
+      events: {
+        onReady: playerInitialized,
+      },
     });
-
-    // a bit of a wait
-    setTimeout(playerInitialized, 1000);
   };
 </script>
 

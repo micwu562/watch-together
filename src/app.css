@@ -1,6 +1,7 @@
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
+  
+  font-size: 18px;
   line-height: 24px;
   font-weight: 400;
 
@@ -48,23 +49,32 @@ h1 {
   text-align: center;
 }
 
+i {
+  font-size: 24px;
+}
+
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  border: 2px solid #555;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: transparent;
+  color: #555;
   cursor: pointer;
-  transition: border-color 0.25s;
+
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #777;
+  color: #777;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+input {
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 8px;
+
+  font-size: 14px;
 }
 
 @media (prefers-color-scheme: light) {
