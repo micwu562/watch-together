@@ -14,10 +14,8 @@ type Interval = ReturnType<typeof setInterval>;
 export class PlayerInterface {
   player: any; // oops
   CODE_EVENTS: eventEntry[];
-
   eventCleaner: Interval;
   scrubDetectionInterval: Interval;
-
   userEventHandlers: eventHandlers;
 
   constructor(player) {
@@ -40,6 +38,8 @@ export class PlayerInterface {
         this.handleRawEvent(name, e.data);
       });
     });
+
+    this.videoChanges = 0;
   }
 
   // Event anticipation bs
@@ -121,5 +121,13 @@ export class PlayerInterface {
   }
   dispatchUserEvent(type: string, data: any) {
     if (this.userEventHandlers[type]) this.userEventHandlers[type](data);
+  }
+
+  videoChanges: number;
+  loadVideo(id: string) {
+    if (this.videoChanges++ === 0) return;
+    this.player.loadVideoById({
+      videoId: id,
+    });
   }
 }

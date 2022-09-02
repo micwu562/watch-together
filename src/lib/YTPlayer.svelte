@@ -6,6 +6,8 @@
 </script>
 
 <script lang="ts">
+  import { currentVideoURL } from "./clientData";
+
   import { getDBVideoURL } from "./database/databaseOps";
 
   export let player: object = {};
@@ -14,6 +16,7 @@
   (window as any).onYouTubeIframeAPIReady = async () => {
     // get video URL
     let videoURL = await getDBVideoURL();
+    currentVideoURL.set(videoURL);
 
     player = new YT.Player("player", {
       height: "585",

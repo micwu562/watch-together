@@ -15,6 +15,7 @@
   };
 
   const loadYTVideo = () => {
+    console.log(html);
     setDBVideoURL(html);
     setDBPlayerState({
       playState: 2,
