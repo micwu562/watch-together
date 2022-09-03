@@ -2,6 +2,7 @@
   import YtPlayer from "./YTPlayer.svelte";
   import MenuBar from "./MenuBar.svelte";
   import { establishPlayerSync } from "./player/syncPlayer";
+  import { updateDBPlayerState } from "./database/databaseOps";
 
   let player;
   let playerInitialized = () => {
@@ -20,7 +21,7 @@
 <div class="player">
   <YtPlayer bind:player bind:playerInitialized />
   <div class="infobox">
-    <MenuBar bind:player />
+    <MenuBar />
   </div>
 </div>
 

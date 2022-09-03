@@ -1,10 +1,22 @@
 import { database } from "./firebase";
-import { ref, set, onValue, DataSnapshot, get } from "firebase/database";
+import {
+  ref,
+  set,
+  onValue,
+  DataSnapshot,
+  get,
+  remove,
+  update,
+} from "firebase/database";
+import { get as getStore } from "svelte/store";
+import { clientID } from "../clientData";
 
 // refs
 const playerStateRef = ref(database, "playerState");
 const videoURLRef = ref(database, "videoURL");
+const usersRef = ref(database, "users");
 
+// PLAYER SYNCHRONIZATION
 // writing to db
 export const setDBPlayerState = (val) => {
   set(playerStateRef, val);
@@ -31,5 +43,24 @@ export const getDBPlayerState = async () => {
 export const getDBVideoURL = async () => {
   return get(videoURLRef).then((snapshot) => {
     return snapshot.val();
+  });
+};
+
+// USER MANAGEMENT
+export const addUser = (id: string) => {
+  set(ref(database, `users/${id}`), `Sped#${id}`);
+};
+export const removeUser = (id: string) => {
+  set(ref(database, `users/${id}`), null);
+};
+
+export const updateDBPlayerState = (state: object) => {
+  const updates = Object.fromEntries(
+    Object.entries(state).map(([key, val]) => [`/${key}`, val])
+  );
+  update(playerStateRef, {
+    "/realTime": new Date().getTime(),
+    "/lastActionBy": getStore(clientID),
+    ...updates,
   });
 };

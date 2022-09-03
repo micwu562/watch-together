@@ -23,14 +23,14 @@ export class PlayerInterface {
 
     // setup event anticipation
     this.CODE_EVENTS = [];
-
-    this.eventCleaner = setInterval(() => {
-      const rightNow = new Date().getTime();
-      this.CODE_EVENTS = this.CODE_EVENTS.filter(
-        (item) => rightNow - item.timeStamp < 1500
-      );
-    }, 300);
     this.userEventHandlers = {};
+    this.eventCleaner = setInterval(this.cleanOldEvents.bind(this), 300);
+
+    // setup pauseScrub detection
+    this.scrubDetectionInterval = setInterval(
+      this.checkForPauseScrub.bind(this),
+      100
+    );
 
     // setup raw event handlers
     ["onStateChange", "onPlaybackRateChange"].forEach((name) => {
@@ -50,6 +50,12 @@ export class PlayerInterface {
       type: type,
       data: data,
     });
+  }
+  cleanOldEvents() {
+    const rightNow = new Date().getTime();
+    this.CODE_EVENTS = this.CODE_EVENTS.filter(
+      (item) => rightNow - item.timeStamp < 1500
+    );
   }
   isUserEvent(type: string, data: any) {
     let foundIndex = this.CODE_EVENTS.findIndex(
@@ -76,7 +82,6 @@ export class PlayerInterface {
     this.player.pauseVideo();
   }
   seekTo(time: number, currentPlayerStatus: number) {
-    console.log(`seeking to: ${time}`);
     if (currentPlayerStatus === 2) {
       this.registerCodeEvent("pauseScrub", time);
     } else {
@@ -103,7 +108,8 @@ export class PlayerInterface {
       this.prevPlayerState !== 1 &&
       currentTime !== this.prevTime
     ) {
-      this.dispatchUserEvent("pauseScrub", currentTime);
+      if (this.isUserEvent("pauseScrub", currentTime))
+        this.dispatchUserEvent("pauseScrub", currentTime);
     }
 
     this.prevTime = currentTime;

@@ -1,42 +1,30 @@
 <script lang="ts">
-  import { get } from "svelte/store";
-  import { tick } from "svelte";
-  import { clientID } from "./clientData";
-
-  import { setDBVideoURL, setDBPlayerState } from "./database/databaseOps";
-  export let player;
+  import { setDBVideoURL, updateDBPlayerState } from "./database/databaseOps";
+  import { parseURL, setVideoURL } from "./database/setVideoUrl";
 
   let urlInput = "";
 
-  let html = "";
-  const handleInputChange = async (e) => {
-    const plainText = e.target.textContent;
-    html = plainText;
-  };
-
   const loadYTVideo = () => {
-    console.log(html);
-    setDBVideoURL(html);
-    setDBPlayerState({
+    setDBVideoURL(parseURL(urlInput));
+    updateDBPlayerState({
       playState: 2,
       videoTime: 0,
-      realTime: new Date().getTime(),
-      playbackRate: player.getPlaybackRate(),
-      lastActionBy: get(clientID),
+      videoURL: urlInput,
     });
+    urlInput = "";
   };
 </script>
 
 <div class="menubar">
   <i class="bx bx-link linkIcon" />
-  <div
+  <input
     class="urlInput"
-    contenteditable="true"
-    data-ph="paste link here (this textbox is kinda broken rn)"
-    bind:innerHTML={html}
-    on:input={handleInputChange}
+    bind:value={urlInput}
+    placeholder="enter url or id here"
   />
-  <button on:click={loadYTVideo}>Change Video</button>
+  <button on:click={loadYTVideo} style="margin-right: 5px;">Play</button>
+  <button on:click={loadYTVideo} style="margin-right: 0px;">Queue</button>
+  <!-- <button on:click={() => {}}>Search</button> -->
 </div>
 
 <style>
@@ -52,9 +40,6 @@
   }
 
   .urlInput {
-    border: none;
-    border-radius: 0;
-    border-bottom: 2px solid #555;
     transition: border-color 0.1s;
 
     color: #777;
@@ -65,11 +50,6 @@
     padding: 2px 5px;
     width: 400px;
     margin-right: 10px;
-  }
-  [contenteditable="true"]:empty:not(:focus):before {
-    content: attr(data-ph);
-    color: #555;
-    font-style: italic;
   }
   .urlInput:focus {
     border-color: #777;

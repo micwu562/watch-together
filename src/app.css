@@ -56,13 +56,14 @@ i {
 button {
   border-radius: 8px;
   border: 2px solid #555;
-  font-size: 1em;
+  font-size: 18px;
   font-weight: 500;
   font-family: inherit;
   background-color: transparent;
   color: #555;
   cursor: pointer;
 
+  transition: color 0.1s, border-color 0.1s;
 }
 button:hover {
   border-color: #777;
@@ -70,11 +71,15 @@ button:hover {
 }
 
 input {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 18px;
   background-color: transparent;
-  border: 1px solid white;
-  border-radius: 8px;
-
-  font-size: 14px;
+  border: none;
+  border-bottom: 2px solid #555;
+  transition: border-color 0.1s;
+}
+input:focus {
+  border-color: #777;
 }
 
 @media (prefers-color-scheme: light) {
