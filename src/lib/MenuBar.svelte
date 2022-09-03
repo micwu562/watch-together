@@ -5,11 +5,11 @@
   let urlInput = "";
 
   const loadYTVideo = () => {
-    setDBVideoURL(parseURL(urlInput));
+    // playerInterface.loadVideo(parseURL(urlInput), 30);
+
     updateDBPlayerState({
-      playState: 2,
       videoTime: 0,
-      videoURL: urlInput,
+      videoURL: parseURL(urlInput),
     });
     urlInput = "";
   };

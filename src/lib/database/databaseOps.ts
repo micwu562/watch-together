@@ -13,7 +13,7 @@ import { clientID } from "../clientData";
 
 // refs
 const playerStateRef = ref(database, "playerState");
-const videoURLRef = ref(database, "videoURL");
+const videoURLRef = ref(database, "playerState/videoURL");
 const usersRef = ref(database, "users");
 
 // PLAYER SYNCHRONIZATION

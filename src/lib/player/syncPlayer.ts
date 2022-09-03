@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { clientID } from "../clientData";
+import { clientID, currentVideoURL } from "../clientData";
 import {
   onDBPlayerStateUpdate,
   onDBVideoURLUpdate,
@@ -22,9 +22,21 @@ export const establishPlayerSync = (player) => {
 
   // SYNC: sync player when db changes
   onDBPlayerStateUpdate((snapshot) => {
+    console.log("update");
     const playerState = snapshot.val();
 
+    if (get(currentVideoURL) !== playerState.videoURL) {
+      // new URL
+      console.log("url changed");
+      playerInterface.loadVideo(playerState.videoURL, playerState.videoTime);
+      currentVideoURL.set(playerState.videoURL);
+
+      if (playerState.playbackRate !== player.getPlaybackRate())
+        playerInterface.changePlaybackRate(playerState.playbackRate);
+      return;
+    }
     if (playerState.lastActionBy === get(clientID)) return;
+
     console.log("%c synchronizing...", "color: yellow");
 
     if (playerState.playState !== player.getPlayerState()) {
@@ -62,9 +74,9 @@ export const establishPlayerSync = (player) => {
   playerInterface.userEventHandlers.pauseScrub = updatePlayerPos;
 
   // SYNC: sync link changes
-  onDBVideoURLUpdate((snapshot) => {
-    const url = snapshot.val();
-    console.log(player.getVideoUrl());
-    playerInterface.loadVideo(snapshot.val());
-  });
+  //   onDBVideoURLUpdate((snapshot) => {
+  //     const url = snapshot.val();
+  //     console.log(player.getVideoUrl());
+  //     playerInterface.loadVideo(snapshot.val());
+  //   });
 };

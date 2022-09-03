@@ -130,10 +130,13 @@ export class PlayerInterface {
   }
 
   videoChanges: number;
-  loadVideo(id: string) {
-    if (this.videoChanges++ === 0) return;
+  loadVideo(id: string, startSeconds?: number) {
+    // if (this.videoChanges++ === 0) return;
+    this.registerCodeEvent("onStateChange", 2);
+    this.registerCodeEvent("onStateChange", 1);
     this.player.loadVideoById({
       videoId: id,
+      startSeconds: startSeconds ?? 0,
     });
   }
 }

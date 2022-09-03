@@ -16,6 +16,7 @@
   (window as any).onYouTubeIframeAPIReady = async () => {
     // get video URL
     let videoURL = await getDBVideoURL();
+    // even though we know the url, set it to "" so that onValue reloads video.
     currentVideoURL.set(videoURL);
 
     player = new YT.Player("player", {
