@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { setDBVideoURL, updateDBPlayerState } from "./database/databaseOps";
-  import { parseURL, setVideoURL } from "./database/setVideoUrl";
+  import { updateDBPlayerState } from "./database/databaseOps";
+  import { parseURL } from "./database/setVideoUrl";
 
   let urlInput = "";
 

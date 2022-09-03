@@ -5,7 +5,6 @@ import {
   onValue,
   DataSnapshot,
   get,
-  remove,
   update,
 } from "firebase/database";
 import { get as getStore } from "svelte/store";

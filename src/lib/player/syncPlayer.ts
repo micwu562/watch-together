@@ -2,7 +2,6 @@ import { get } from "svelte/store";
 import { clientID, currentVideoURL } from "../clientData";
 import {
   onDBPlayerStateUpdate,
-  onDBVideoURLUpdate,
   updateDBPlayerState,
 } from "../database/databaseOps";
 import { PlayerInterface } from "./playerInterface";
@@ -12,7 +11,8 @@ const computeActualTime = (playerState) => {
   return (
     playerState.videoTime +
     ((new Date().getTime() - playerState.realTime) * playerState.playbackRate) /
-      1000
+      1000 +
+    0.08
   );
 };
 
@@ -48,7 +48,6 @@ export const establishPlayerSync = (player) => {
     if (playerState.playbackRate !== player.getPlaybackRate())
       playerInterface.changePlaybackRate(playerState.playbackRate);
 
-    // compensate for lag (not needed when paused)
     const actualTime = computeActualTime(playerState);
     playerInterface.seekTo(
       // bit of a hack - if videos already over, set time to end - 1s
@@ -72,11 +71,4 @@ export const establishPlayerSync = (player) => {
   playerInterface.userEventHandlers.onStateChange = updatePlayerPos;
   playerInterface.userEventHandlers.onPlaybackRateChange = updatePlayerPos;
   playerInterface.userEventHandlers.pauseScrub = updatePlayerPos;
-
-  // SYNC: sync link changes
-  //   onDBVideoURLUpdate((snapshot) => {
-  //     const url = snapshot.val();
-  //     console.log(player.getVideoUrl());
-  //     playerInterface.loadVideo(snapshot.val());
-  //   });
 };
