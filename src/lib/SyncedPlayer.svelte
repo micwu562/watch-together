@@ -5,14 +5,22 @@
   import { updateDBPlayerState } from "./database/databaseOps";
 
   let player;
+  let playerMutedByCode = false;
   let playerInitialized = () => {
     console.log("%cPlayer Initialized", "color: red;");
+
+    if (!player.isMuted()) {
+      player.mute();
+      playerMutedByCode = true;
+    }
 
     const playerStartCheckInterval = setInterval(() => {
       if (player.getPlayerState() === 1) {
         console.log("%cPlayer Started", "color: orange;");
         clearInterval(playerStartCheckInterval);
         establishPlayerSync(player);
+
+        if (playerMutedByCode) player.unMute();
       }
     }, 100);
   };

@@ -12,7 +12,7 @@ const computeActualTime = (playerState) => {
     playerState.videoTime +
     ((new Date().getTime() - playerState.realTime) * playerState.playbackRate) /
       1000 +
-    0.08
+    0.05
   );
 };
 
