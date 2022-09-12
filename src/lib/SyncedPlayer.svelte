@@ -2,7 +2,6 @@
   import YtPlayer from "./YTPlayer.svelte";
   import MenuBar from "./MenuBar.svelte";
   import { establishPlayerSync } from "./player/syncPlayer";
-  import { updateDBPlayerState } from "./database/databaseOps";
 
   let player;
   let playerMutedByCode = false;

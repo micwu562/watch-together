@@ -76,21 +76,8 @@ input {
   background-color: transparent;
   border: none;
   border-bottom: 2px solid #555;
-  transition: border-color 0.1s;
+  transition: border-color 0.2s;
 }
 input:focus {
   border-color: #777;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }

@@ -29,9 +29,6 @@ type SnapshotHandler = (snapshot: DataSnapshot) => void;
 export const onDBPlayerStateUpdate = (handler: SnapshotHandler) => {
   onValue(playerStateRef, handler);
 };
-export const onDBVideoURLUpdate = (handler: SnapshotHandler) => {
-  onValue(videoURLRef, handler);
-};
 
 // getting db value once: used when player is loaded
 export const getDBPlayerState = async () => {

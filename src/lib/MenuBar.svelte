@@ -5,8 +5,6 @@
   let urlInput = "";
 
   const loadYTVideo = () => {
-    // playerInterface.loadVideo(parseURL(urlInput), 30);
-
     updateDBPlayerState({
       videoTime: 0,
       videoURL: parseURL(urlInput),
@@ -24,7 +22,6 @@
   />
   <button on:click={loadYTVideo} style="margin-right: 5px;">Play</button>
   <button on:click={loadYTVideo} style="margin-right: 0px;">Queue</button>
-  <!-- <button on:click={() => {}}>Search</button> -->
 </div>
 
 <style>

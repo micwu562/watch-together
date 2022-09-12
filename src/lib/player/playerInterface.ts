@@ -42,7 +42,7 @@ export class PlayerInterface {
     this.videoChanges = 0;
   }
 
-  // Event anticipation bs
+  // Event anticipation shenanigans
   // Lets code distinguish between user-triggered and code-triggered events
   registerCodeEvent(type: string, data: any) {
     this.CODE_EVENTS.push({
@@ -131,7 +131,6 @@ export class PlayerInterface {
 
   videoChanges: number;
   loadVideo(id: string, startSeconds?: number) {
-    // if (this.videoChanges++ === 0) return;
     this.registerCodeEvent("onStateChange", 2);
     this.registerCodeEvent("onStateChange", 1);
     this.player.loadVideoById({
